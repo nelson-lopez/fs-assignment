@@ -2,7 +2,8 @@ import { Injectable, Logger, HttpService, NotAcceptableException } from '@nestjs
 import * as config from 'config'
 import { EthExchangeRate } from '../types/exchange.interface';
 import { lastYear } from '../utils/timestamps';
-
+import { GetBalanceDto } from '../types/getBalance.dto';
+const Web3 = require('web3')
 
 @Injectable()
 export class WalletService {
@@ -44,6 +45,26 @@ export class WalletService {
     return currentRates
   }
 
-  async returnBalance() { }
+  async returnBalance(getBalanceDto: GetBalanceDto) {
+    const { address, exchange } = getBalanceDto
+
+    const key = this.api.key
+    const etherScanUrl = `https://api.etherscan.io/api?module=account&action=balance&address=${address}&tag=latest&apikey=${key}`
+    const currentWalletBalance = await this.http.get(etherScanUrl).toPromise()
+      .then(res => res.data.result)
+      .catch(err => this.logger.verbose(`Invalid address! ${err}`))
+
+    const url = 'https://ropsten.infura.io/'
+    const web3 = new Web3(new Web3.providers.HttpProvider(url))
+
+    const currentEther = web3.utils.fromWei(currentWalletBalance)
+    const selectedExchange = this.ethExchangeRates[exchange]
+
+    if (!selectedExchange) {
+      throw new NotAcceptableException(`Exchange type of ${exchange} is not valid`)
+    }
+    return Math.round(currentEther / selectedExchange)
+
+  }
 
 }

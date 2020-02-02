@@ -27,7 +27,8 @@
     "config": "^3.2.5",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.0",
-    "rxjs": "^6.5.3"
+    "rxjs": "^6.5.3",
+    "web3": "^1.2.6"
   },
   "devDependencies": {
     "@nestjs/cli": "^6.9.0",

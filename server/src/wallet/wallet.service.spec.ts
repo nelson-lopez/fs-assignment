@@ -76,6 +76,14 @@ describe('WalletService', () => {
       expect(service.returnBalance).toBeDefined()
     });
 
+    it('should throw an error if exchange is invalid', () => {
+      const mockGetBalanceDto = {
+        address: '',
+        exchange: ''
+      }
+      expect(service.returnBalance(mockGetBalanceDto)).rejects.toThrow()
+    });
+
   });
 
 });

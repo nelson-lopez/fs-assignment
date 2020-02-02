@@ -2,6 +2,7 @@ import { Controller, Post, Body, Get, Patch, UsePipes, ValidationPipe } from '@n
 import { WalletService } from './wallet.service';
 import { ExchangeValidationPipe } from '../pipes/exchange-validation.pipe';
 import { ValueValidationPipe } from '../pipes/value-validation.pipe';
+import { GetBalanceDto } from '../types/getBalance.dto';
 
 @Controller('wallet')
 export class WalletController {
@@ -26,5 +27,8 @@ export class WalletController {
     return this.walletService.editExchangeRate(exchange, value)
   }
 
-  returnBalance() { }
+  @Post('/balance')
+  returnBalance(@Body() getBalanceDto: GetBalanceDto) {
+    return this.walletService.returnBalance(getBalanceDto)
+  }
 }
