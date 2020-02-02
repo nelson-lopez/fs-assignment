@@ -36,7 +36,13 @@ export class WalletService {
     return this.ethExchangeRates
   }
 
-  editExchangeRate() { }
+  editExchangeRate(exchangeName: string, value: number): EthExchangeRate {
+    const currentRates = this.ethExchangeRates
+
+    currentRates[exchangeName] = value
+
+    return currentRates
+  }
 
   async returnBalance() { }
 

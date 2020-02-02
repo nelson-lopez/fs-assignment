@@ -60,6 +60,15 @@ describe('WalletService', () => {
       expect(service.editExchangeRate).toBeDefined()
     });
 
+    it('should be able to edit exchange rates for USD and EURO', () => {
+      const mockExchangeName = 'USD'
+      const mockExchangeValue = 3.9
+
+      const oldExchange = service.getExchangeRate()
+      const newExchange = service.editExchangeRate(mockExchangeName, mockExchangeValue)
+      expect(oldExchange).toEqual(newExchange)
+    });
+
   });
 
   describe('returnBalance', () => {
