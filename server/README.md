@@ -1,75 +1,38 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="320" alt="Nest Logo" /></a>
-</p>
+## Instructions
 
-[travis-image]: https://api.travis-ci.org/nestjs/nest.svg?branch=master
-[travis-url]: https://travis-ci.org/nestjs/nest
-[linux-image]: https://img.shields.io/travis/nestjs/nest/master.svg?label=linux
-[linux-url]: https://travis-ci.org/nestjs/nest
-  
-  <p align="center">A progressive <a href="http://nodejs.org" target="blank">Node.js</a> framework for building efficient and scalable server-side applications, heavily inspired by <a href="https://angular.io" target="blank">Angular</a>.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore"><img src="https://img.shields.io/npm/dm/@nestjs/core.svg" alt="NPM Downloads" /></a>
-<a href="https://travis-ci.org/nestjs/nest"><img src="https://api.travis-ci.org/nestjs/nest.svg?branch=master" alt="Travis" /></a>
-<a href="https://travis-ci.org/nestjs/nest"><img src="https://img.shields.io/travis/nestjs/nest/master.svg?label=linux" alt="Linux" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#5" alt="Coverage" /></a>
-<a href="https://gitter.im/nestjs/nestjs?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=body_badge"><img src="https://badges.gitter.im/nestjs/nestjs.svg" alt="Gitter" /></a>
-<a href="https://opencollective.com/nest#backer"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec"><img src="https://img.shields.io/badge/Donate-PayPal-dc3d53.svg"/></a>
-  <a href="https://twitter.com/nestframework"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+1. Install dependencies using `npm install`
+2. Start your server using `npm start`
+3. To run test run `npm run test:watch`
+4. The backend should be accessible via `http://localhost:3001/wallet` using __Postman__ or __Insomnia__
+5. For a expired wallet address use `0x742d35Cc6634C0532925a3b844Bc454e4438f44e` and for non expired use `0x777DD061b3F9865a3aD9875EFca52e3906370e2d` or any of the public accounts on [etherscan](https://etherscan.io/accounts)
 
-## Description
+## Discussion
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+I used the following technologies: Nestjs, Web3, and Etherscan.
+This app was generated using [Nest-CLI](https://github.com/nestjs/nest-cli).
 
-## Installation
 
-```bash
-$ npm install
-```
+## Requirements
 
-## Running the app
+#### An endpoint that returns true if the wallet is old. A wallet is considered old if the first transaction was performed at least one year ago
 
-```bash
-# development
-$ npm run start
+For this task I mapped the endpoint `http://localhost:3001/wallet/expired`. An example of using this endpoint would be to make a `POST` with JSON object in the following fashion: 
 
-# watch mode
-$ npm run start:dev
+`"address": "0x777DD061b3F9865a3aD9875EFca52e3906370e2d"`
 
-# production mode
-$ npm run start:prod
-```
 
-## Test
+#### Get exchange rates from Euro and US Dollar to ETH (Ethereum), those can be stored in-memory / hardcoded (no need for a DB)
 
-```bash
-# unit tests
-$ npm run test
+To access this endpoint simply make a `GET` request to `http://localhost:3001/wallet/exchange`
 
-# e2e tests
-$ npm run test:e2e
+#### Edit the exchange rate of Euro or US Dollar to ETH
+Make a `PATCH` request to `http://localhost:3001/wallet/exchange` with a JSON object containing exchange and value data ie. 
 
-# test coverage
-$ npm run test:cov
-```
+`"exchangeName": "USD",
+	"value": 0.2`
 
-## Support
+#### An endpoint that gets a currency (Euro or US Dollar) and returns the balance of the ETH in the wallet in the selected currency using the exchange rates from step 2.
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+To access this endpoint make a `POST` request to `http://localhost:3001/wallet/balance` containing address and exchange data:
 
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-  Nest is [MIT licensed](LICENSE).
+ `"address": "0x742d35Cc6634C0532925a3b844Bc454e4438f44e","exchange":"USD"`

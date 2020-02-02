@@ -57,6 +57,9 @@ export class WalletService {
     const url = 'https://ropsten.infura.io/'
     const web3 = new Web3(new Web3.providers.HttpProvider(url))
 
+    /**
+     * Here we have to convert account wei unit into ether and divide in order to get proper conversion 
+     */
     const currentEther = web3.utils.fromWei(currentWalletBalance)
     const selectedExchange = this.ethExchangeRates[exchange]
 
